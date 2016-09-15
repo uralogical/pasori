@@ -1,0 +1,8 @@
+Vagrantで仮想環境を用意する
+http://naoty.hatenablog.com/entry/2013/10/20/171658
+VagrantでUSBを使う
+http://d.hatena.ne.jp/seinzumtode/20140505/1399317508
+Pythonをはじめよう(EC2 -Ubuntu-Python2.7.9)
+http://qiita.com/hththt/items/6dd09a1b9e5dceb2867c
+Raspberry piで、PaSoRi USB Felica Reader(RC-S380)を使用する
+http://qiita.com/takanemu/items/1e6ef1207e5261040f05

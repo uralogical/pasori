@@ -1,0 +1,4 @@
+infra/vagrant/.vagrant/*
+infra/vagrant/modules/*
+infra/vagrant/LICENSE
+infra/vagrant/README.md
