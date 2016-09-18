@@ -1,8 +1,24 @@
 Vagrantで仮想環境を用意する
 http://naoty.hatenablog.com/entry/2013/10/20/171658
+
+$ vagrant ssh-config --host rpi >> ~/.ssh/config
+
 VagrantでUSBを使う
 http://d.hatena.ne.jp/seinzumtode/20140505/1399317508
 Pythonをはじめよう(EC2 -Ubuntu-Python2.7.9)
 http://qiita.com/hththt/items/6dd09a1b9e5dceb2867c
+
+$ sudo apt-get -y install python-dev
+$ wget https://bootstrap.pypa.io/get-pip.py
+$ python -v
+
 Raspberry piで、PaSoRi USB Felica Reader(RC-S380)を使用する
 http://qiita.com/takanemu/items/1e6ef1207e5261040f05
+
+$ sudo apt-get install python-usb
+$ wget https://launchpad.net/nfcpy/0.9/0.9.1/+download/nfcpy-0.9.1.tar.gz
+$ tar xvzf nfcpy-0.9.1.tar.gz
+$ sudo nfcpy-0.9.1/examples/tagtool.py
+
+
+$sudo apt-get install mysql-server
