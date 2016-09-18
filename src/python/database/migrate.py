@@ -2,76 +2,55 @@
 # coding: utf-8
 
 import MySQLdb
+from datetime import datetime
 
 def main():
-    conn = MySQLdb.connect(
-        user='root',
-        passwd='pass',
-        host='127.0.0.1',
-        db='pasori'
-    )
-    c = conn.cursor()
+  conn = MySQLdb.connect(
+      user='root',
+      passwd='pass',
+      host='127.0.0.1',
+      db='pasori'
+  )
+  c = conn.cursor()
 
-    sql = 'select systems table '
+  now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
-    tables = [ 
-        ['systems', '(id int, SYS varchar(32))'],
-        ['products', '(id int, PMm varchar(32))'],
-        ['users', '(id int, name varchar(32), IDm varchar(32))']
-    ]
+  tables = [ 
+      # ['systems', '(id int, SYS varchar(32))'],
+      # ['products', '(id int, PMm varchar(32))'],
+      ['books', '(id int(11) AUTO_INCREMENT, name varchar(32), created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP NOT NULL, index(id))'],
+      ['organizations','(id int(11) AUTO_INCREMENT, name varchar(32), sysid varchar(32), pmmid varchar(32), created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP NOT NULL, index(id))'],
+      ['users', '(id int(11) AUTO_INCREMENT, name varchar(32), IDm varchar(32), created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP NOT NULL, index(id))'],
+  ]
 
-    for table in tables:
-      sql =  "SHOW TABLES LIKE '" + str(table[0]) + "';"
-      is_exist = c.execute("SHOW TABLES LIKE %s", (str(table[0])))
-      if is_exist:
-        print('Already Inserted...\n')
-        continue
-      # テーブルの作成
-      sql = 'create table ' + str(table[0]) + ' ' + str(table[1])
-      c.execute(sql)
-      print('Created ' + str(table[0]) + ' table.\n')
+  # Delete Tables
+  for table in tables:
+    c.execute("DROP TABLE IF EXISTS " + (str(table[0])))
 
-    # # テーブル一覧の取得
-    # sql = 'show tables'
-    # print c.execute(sql)
-    # print('===== テーブル一覧 =====')
-    # print(c.fetchone())
+  # Create Tables
+  for table in tables:
+    create = 'create table ' + str(table[0]) + ' ' + str(table[1])
+    c.execute(create)
+    print('Created ' + str(table[0]) + ' table.')
 
-    # # レコードの登録
-    # sql = 'insert into test values (%s, %s)'
-    # c.execute(sql, (1, 'hoge'))  # 1件のみ
-    # datas = [
-    #     (2, 'foo'),
-    #     (3, 'bar')
-    # ]
-    # c.executemany(sql, datas)    # 複数件
-    # print('\n* レコードを3件登録\n')
+  # Register Records
+  insert_orgs = 'insert into organizations values (%s, %s, %s, %s, %s, %s)'
+  c.execute(insert_orgs, (None, 'SeattleConsulting', 8725, '0120220427674eff', None, None))
+  print('Inserted Organizations...\n')
 
-    # # レコードの取得
-    # sql = 'select * from test'
-    # c.execute(sql)
-    # print('===== レコード =====')
-    # for row in c.fetchall():
-    #     print('Id:', row[0], 'Content:', row[1])
+  insert_users = 'insert into users values (%s, %s, %s, %s, %s)'
+  datas = [
+    (None, 'masatoshi.atsumi', '01100d0053135d01', None, None),
+    (None, 'masayuki.tooyama', '0110070053136101', None, None),
+  ]
+  c.executemany(insert_users, datas)
+  print('Inserted Organizations...\n')
 
-    # # レコードの削除
-    # sql = 'delete from test where id=%s'
-    # c.execute(sql, (2,))
-    # print('\n* idが2のレコードを削除\n')
+  conn.commit()
 
-    # # レコードの取得
-    # sql = 'select * from test'
-    # c.execute(sql)
-    # print('===== レコード =====')
-    # for row in c.fetchall():
-    #     print('Id:', row[0], 'Content:', row[1])
-
-    # データベースへの変更を保存
-    conn.commit()
-
-    c.close()
-    conn.close()
-
+  c.close()
+  conn.close()
 
 if __name__ == '__main__':
-    main()
+  main()
+  print 'Migration done!'
